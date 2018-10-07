@@ -1,7 +1,6 @@
 """
 chicago.bikeshare_pt.py
 
-
 Projeto 1 do Nanodegree Fundamentos de AI & Machine Learning da Udacity. O Projeto em Python consiste na exploração de
 dados relacionados aos sistemas de compartilhamento de bicicletas. O código entregue importa os dados de uma arquivo CSV
 e responde a algumas perguntas sobre eles. O script recebe uma entrada bruta que cria uma experiência interativa no
@@ -19,9 +18,7 @@ import matplotlib.pyplot as plt
 from statistics import median, mean
 
 
-# Vamos ler os dados como uma lista
-from pyparsing import col
-
+# Importa os dados do CSV em uma lista
 print("Lendo o documento...")
 with open("chicago.csv", "r") as file_read:
     reader = csv.reader(file_read)
@@ -39,8 +36,14 @@ print("Linha 0.........: {}".format(data_list[0]))
 print("Linha 1.........: {}".format(data_list[1]))
 
 input("Aperte Enter para continuar...")
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 1
+# ========
+#
 # TODO: Imprima as primeiras 20 linhas usando um loop para identificar os dados.
+# --------------------------------------------------------------------------------
 print("\n\nTAREFA 1: Imprimindo as primeiras 20 amostras")
 for row, data in enumerate(data_list[0: 20]):
     print("Row {}: {}".format(row+1, data))
@@ -52,9 +55,14 @@ data_list = data_list[1:len(data_list)]
 # Por exemplo: sample[6] para imprimir gênero, ou sample[-2]
 
 input("Aperte Enter para continuar...")
-# TAREFA 2
-# TODO: Imprima o `gênero` das primeiras 20 linhas
 
+
+# --------------------------------------------------------------------------------
+# TAREFA 2
+# ========
+#
+# TODO: Imprima o `gênero` das primeiras 20 linhas
+# --------------------------------------------------------------------------------
 print("\nTAREFA 2: Imprimindo o gênero das primeiras 20 amostras")
 for row, data in enumerate(data_list[0: 20]):
     print("Row {}: {}".format(row+1, data[6]))
@@ -63,22 +71,28 @@ for row, data in enumerate(data_list[0: 20]):
 # Mas ainda é difícil pegar uma coluna em uma lista. Exemplo: Lista com todos os gêneros
 
 input("Aperte Enter para continuar...")
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 3
+# ========
+#
 # TODO: Crie uma função para adicionar as colunas(features) de uma lista em outra lista, na mesma ordem
-def column_to_list(data, index):
+# --------------------------------------------------------------------------------
+def column_to_list(data_list: list, index: int) -> list:
     """
     Adiciona as colunas(features) de uma lista em outra lista, na mesma ordem
 
     Attributes:
-        data (list): Lista de dados
+        data_list (list): Lista de dados
         index (int): Índice da coluna a ser buscada
 
     Returns:
         list: Retorna uma list simples com a coluna desejada
     """
+    # iteraração sobre as amostras, pegando a feature pelo seu índice, e inserindo na lista 'column_list'
     column_list = []
-    # Dica: Você pode usar um for para iterar sobre as amostras, pegar a feature pelo seu índice, e dar append para uma lista
-    for row in data:
+    for row in data_list:
         column_list.append(row[index])
     return column_list
 
@@ -95,12 +109,21 @@ assert column_to_list(data_list, -2)[0] == "" and column_to_list(data_list, -2)[
 
 input("Aperte Enter para continuar...")
 # Agora sabemos como acessar as features, vamos contar quantos Male (Masculinos) e Female (Femininos) o dataset tem
-# TAREFA 4
-# TODO: Conte cada gênero. Você não deveria usar uma função para isso.
-genere_list = column_to_list(data_list, -2)
-male = len(list(filter(lambda genere: genere == "Male", genere_list)))  # Contagem utilizando lambda
-female = genere_list.count("Female")  # Utilizando uma maneira mais "limpa" de faze a contagem
 
+
+# --------------------------------------------------------------------------------
+# TAREFA 4
+# ========
+#
+# TODO: Conte cada gênero. Você não deveria usar uma função para isso.
+# --------------------------------------------------------------------------------
+genere_list = column_to_list(data_list, -2)
+
+# Contagem de "Male" utilizando lambda
+male = len(list(filter(lambda genere: genere == "Male", genere_list)))
+
+# Contagem de "Female" utilizando uma maneira mais "limpa" de fazer a contagem
+female = genere_list.count("Female")
 
 # Verificando o resultado
 print("\nTAREFA 4: Imprimindo quantos masculinos e femininos nós encontramos")
@@ -112,10 +135,20 @@ assert male == 935854 and female == 298784, "TAREFA 4: A conta não bate."
 
 input("Aperte Enter para continuar...")
 # Por que nós não criamos uma função para isso?
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 5
+# ========
+#
 # TODO: Crie uma função para contar os gêneros. Retorne uma lista.
-# Isso deveria retornar uma lista com [count_male, count_female] (exemplo: [10, 15] significa 10 Masculinos, 15 Femininos)
-def count_gender(data_list):
+# Isso deveria retornar uma lista com [count_male, count_female]
+#
+# Exemplo:
+# --------
+#   [10, 15] significa 10 Masculinos, 15 Femininos
+# --------------------------------------------------------------------------------
+def count_gender(data_list: list) -> list:
     """
     Função que retorna uma lista indicando os gênereos
 
@@ -123,8 +156,7 @@ def count_gender(data_list):
         data_list (list): Lista dos dados
 
     Returns:
-        list: Retorna uma lista com [count_male, count_female]
-              (exemplo: [10, 15] significa 10 Masculinos, 15 Femininos)
+        list: Retorna uma lista com [count_male, count_female] (ex.: [10, 15] significa 10 Masculinos, 15 Femininos)
     """
     male = 0
     female = 0
@@ -150,10 +182,16 @@ assert count_gender(data_list)[0] == 935854 and count_gender(data_list)[1] == 29
 
 input("Aperte Enter para continuar...")
 # Agora que nós podemos contar os usuários, qual gênero é mais prevalente?
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 6
+# ========
+#
 # TODO: Crie uma função que pegue o gênero mais popular, e retorne este gênero como uma string.
 # Esperamos ver "Male", "Female", ou "Equal" como resposta.
-def most_popular_gender(data_list):
+# --------------------------------------------------------------------------------
+def most_popular_gender(data_list: list) -> str:
     """
     Retorna o gênero mais popular
 
@@ -161,7 +199,7 @@ def most_popular_gender(data_list):
         data_list (list): Lista dos dados
 
     Returns:
-        string: Retorna "Male", "Female", ou "Equal" como resposta.
+        str: Retorna "Male", "Female", ou "Equal" como resposta.
     """
     count_male, count_female = count_gender(data_list)
     if count_male > count_female:
@@ -194,14 +232,24 @@ plt.title('Quantidade por Gênero')
 plt.show(block=True)
 
 input("Aperte Enter para continuar...")
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 7
+# ========
+#
 # TODO: Crie um gráfico similar para user_types. Tenha certeza que a legenda está correta.
+# --------------------------------------------------------------------------------
 print("\nTAREFA 7: Verifique o gráfico!")
-
-
 input("Aperte Enter para continuar...")
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 8
+# ========
+#
 # TODO: Responda a seguinte questão
+# --------------------------------------------------------------------------------
 male, female = count_gender(data_list)
 print("\nTAREFA 8: Por que a condição a seguir é Falsa?")
 print("male + female == len(data_list):", male + female == len(data_list))
@@ -215,9 +263,15 @@ assert answer != "Escreva sua resposta aqui.", "TAREFA 8: Escreva sua própria r
 
 input("Aperte Enter para continuar...")
 # Vamos trabalhar com trip_duration (duração da viagem) agora. Não conseguimos tirar alguns valores dele.
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 9
+# ========
+#
 # TODO: Ache a duração de viagem Mínima, Máxima, Média, e Mediana.
 # Você não deve usar funções prontas para isso, como max() e min().
+# --------------------------------------------------------------------------------
 trip_duration_list = list(map(int, column_to_list(data_list, 2)))
 min_trip = min(trip_duration_list)
 max_trip = max(trip_duration_list)
@@ -236,9 +290,15 @@ assert round(median_trip) == 670, "TAREFA 9: median_trip com resultado errado!"
 # -----------------------------------------------------
 
 input("Aperte Enter para continuar...")
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 10
+# =========
+#
 # Gênero é fácil porque nós temos apenas algumas opções. E quanto a start_stations? Quantas opções ele tem?
 # TODO: Verifique quantos tipos de start_stations nós temos, usando set()
+# --------------------------------------------------------------------------------
 start_stations = sorted(set(column_to_list(data_list, 3)))
 
 print("\nTAREFA 10: Imprimindo as start stations:")
@@ -250,9 +310,15 @@ assert len(start_stations) == 582, "TAREFA 10: Comprimento errado de start stati
 # -----------------------------------------------------
 
 input("Aperte Enter para continuar...")
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 11
+# =========
+#
 # Volte e tenha certeza que você documentou suas funções. Explique os parâmetros de entrada, a saída, e o que a função faz. Exemplo:
 # def new_function(param1: int, param2: str) -> list:
+# --------------------------------------------------------------------------------
 """
 Função de exemplo com anotações.
 Argumentos:
@@ -262,15 +328,22 @@ Retorna:
   Uma lista de valores x.
 
 """
-
 input("Aperte Enter para continuar...")
+
+
+# --------------------------------------------------------------------------------
 # TAREFA 12 - Desafio! (Opcional)
+# ===============================
+#
 # TODO: Crie uma função para contar tipos de usuários, sem definir os tipos
 # para que nós possamos usar essa função com outra categoria de dados.
+# --------------------------------------------------------------------------------
 print("Você vai encarar o desafio? (yes ou no)")
 answer = "yes"
+print("Resposta: Yes -> Desafio aceito!")
 
-def count_items(column_list):
+
+def count_items(column_list: list) -> list:
     """
     Contar todos tipos de usuários, sem definir os tipos
 
