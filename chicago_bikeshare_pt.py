@@ -1,3 +1,16 @@
+"""
+chicago.bikeshare_pt.py
+
+
+Projeto 1 do Nanodegree Fundamentos de AI & Machine Learning da Udacity. O Projeto em Python consiste na exploração de
+dados relacionados aos sistemas de compartilhamento de bicicletas. O código entregue importa os dados de uma arquivo CSV
+e responde a algumas perguntas sobre eles. O script recebe uma entrada bruta que cria uma experiência interativa no
+terminal, a fim de apresentar estas estatísticas.
+
+Exercício entregue em 07/10/2018 (Prazo máximo: 25/10/2018)
+
+@author: Rafael Vidal
+"""
 # coding: utf-8
 
 # Começando com os imports
