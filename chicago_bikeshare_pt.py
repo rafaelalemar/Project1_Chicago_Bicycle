@@ -15,7 +15,6 @@ Exercício entregue em 07/10/2018 (Prazo máximo: 25/10/2018)
 # Começando com os imports
 import csv
 import matplotlib.pyplot as plt
-from statistics import median, mean
 
 
 # Importa os dados do CSV em uma lista
@@ -240,6 +239,18 @@ input("Aperte Enter para continuar...")
 #
 # TODO: Crie um gráfico similar para user_types. Tenha certeza que a legenda está correta.
 # --------------------------------------------------------------------------------
+
+user_types = column_to_list(data_list, -3)
+types = list(set(user_types))
+quantity = [user_types.count(type) for type in types]
+
+y_pos = list(range(len(types)))
+plt.bar(y_pos, quantity)
+plt.ylabel('Quantidade')
+plt.xlabel('Tipo de Usuário')
+plt.xticks(y_pos, types)
+plt.title('Quantidade por Tipo de Usuário')
+plt.show(block=True)
 print("\nTAREFA 7: Verifique o gráfico!")
 input("Aperte Enter para continuar...")
 
@@ -272,11 +283,30 @@ input("Aperte Enter para continuar...")
 # TODO: Ache a duração de viagem Mínima, Máxima, Média, e Mediana.
 # Você não deve usar funções prontas para isso, como max() e min().
 # --------------------------------------------------------------------------------
+def calculate_median(data_list: list) -> int:
+    """
+    Calcula o valor mediano.
+
+    Referência:
+    Rotina retirada do site Stack Overflow (https://stackoverflow.com/questions/24101524/finding-median-of-list-in-python)
+
+    Attributes:
+        data_list (list): Lista dos dados
+
+    Returns:
+        int: Retorna o valor mediano
+    """
+    quotient, remainder = divmod(len(data_list), 2)
+    if remainder:
+        return sorted(data_list)[quotient]
+    return sum(sorted(data_list)[quotient - 1:quotient + 1]) / 2.
+
+
 trip_duration_list = list(map(int, column_to_list(data_list, 2)))
-min_trip = min(trip_duration_list)
-max_trip = max(trip_duration_list)
-mean_trip = mean(trip_duration_list)
-median_trip = median(trip_duration_list)
+min_trip = sorted(trip_duration_list)[0]
+max_trip = sorted(trip_duration_list)[-1]
+mean_trip = sum(trip_duration_list) / float(len(trip_duration_list))
+median_trip = calculate_median(trip_duration_list)
 
 
 print("\nTAREFA 9: Imprimindo o mínimo, máximo, média, e mediana")
